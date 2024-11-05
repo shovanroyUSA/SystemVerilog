@@ -1,9 +1,6 @@
 # SystemVerilog
 How to construct a complete testbench (generator, driver, interface), how to generate ethernet frames with constraint randomization, how to pass a packet from one process to another process using through mailbox, how to drive a packet to a interface are implemented here.
 
-<iframe src="Generate Eth packets and drive to DUT according to interface protocol.pdf" width="600" height="500"></iframe>
-
-<embed src="Generate Eth packets and drive to DUT according to interface protocol.pdf" width="600" height="500" type="application/pdf">
 Generate Eth packets and drive to DUT according to interface protocol
 
 Packet Generator
