@@ -1,5 +1,6 @@
 # SystemVerilog
 How to construct a complete testbench (generator, driver, interface), how to generate ethernet frames with constraint randomization, how to pass a packet from one process to another process using through mailbox, how to drive a packet to a interface are implemented here.
+
 Generate Eth packets and drive to DUT according to interface protocol
 
 Packet Generator
@@ -34,7 +35,8 @@ Driver gets the packet from generator and drives to DUT according to
 interface protocol
 
 ![A diagram of a diagram Description automatically
-generated](media/image1.png){width="6.5in" height="3.079861111111111in"}
+generated](./media/media/image1.png){width="6.5in"
+height="3.079861111111111in"}
 
 Interface Protocol
 
@@ -52,7 +54,7 @@ data and other control signals.
  
 
 ![A black and white diagram Description automatically generated with
-medium confidence](media/image2.png){width="6.5in"
+medium confidence](./media/media/image2.png){width="6.5in"
 height="1.2631944444444445in"}
 
 Simple packet protocol
@@ -217,7 +219,8 @@ Adding any additional payload data based on the packet size.
 A pack function assembles a byte array into a packet.
 
 ![A diagram of a flowchart Description automatically
-generated](media/image3.png){width="6.5in" height="7.759722222222222in"}
+generated](./media/media/image3.png){width="6.5in"
+height="7.759722222222222in"}
 
 2\. Generator Implementation
 
@@ -292,7 +295,8 @@ from the driver to the interface:
 5.  **End**: Complete the transfer process.
 
 ![A diagram of a flowchart Description automatically
-generated](media/image4.png){width="5.972222222222222in" height="9.0in"}
+generated](./media/media/image4.png){width="5.972222222222222in"
+height="9.0in"}
 
 **5. Interface Implementation**
 
@@ -319,5 +323,3 @@ Interface is instantiated inside the top module.
         of the interface
 
 -   vpd file generated to see the waveform.
-
-
