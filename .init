@@ -1,0 +1,186 @@
+#!/bin/bash
+
+#Reset PATH to avoid having it build up over reinvocations of this script
+export PATH=$(getconf PATH)
+if ! shopt -q login_shell; then #for non-login shells
+if [ -f /etc/bashrc ]; then
+    source /etc/bashrc
+  fi
+else
+  if [ -f /etc/profile ]; then #for interactive login shells (e.g. ssh)
+    source /etc/profile
+  fi
+fi
+
+#Enable group read/write permissions by default
+umask 0002
+
+#Enable alias usage in scripts
+shopt -s expand_aliases
+
+#Set WA_ROOT (required by bldr)
+export WA_ROOT=$(dirname "$(readlink -f "$BASH_SOURCE")")
+export _INIT_FILE_SHA=$(sha256sum "$BASH_SOURCE" | head -c 40)
+
+###############################################
+###########     L I C E N S E S     ###########
+source /mnt/ip/license/ip.sh #ip license
+source /mnt/tools/EDA/license/eda.sh #eda tool licenses
+
+###############################################
+###########   T O O L   P A T H S   ###########
+#Xilinx Vivado (FPGA synthesis, place and route)
+export     VIVADO_BUILD=/mnt/tools/EDA/xilinx/ #FIXME: do we need this env var?
+export      VIVADO_HOME=/mnt/tools/EDA/xilinx/Vivado/2021.2
+export             PATH=$VIVADO_HOME/bin:$PATH
+source /mnt/tools/EDA/xilinx/SDNet/2020.1/settings64.sh
+
+#Synopsys VCS (simulator)
+export SYNOPSYS_INSTALL=/mnt/tools/EDA/synopsys
+export         SYNOPSYS=/mnt/tools/EDA/synopsys/vcs/Q-2020.03-SP1/linux64/packages
+export         VCS_HOME=/mnt/tools/EDA/synopsys/vcs/Q-2020.03-SP1
+export     SNPS_BROWSER=/usr/bin/firefox
+export   CORETOOLS_HOME=/mnt/tools/EDA/synopsys/coretools/Q-2020.03-SP3
+export         SCL_HOME=/mnt/tools/EDA/synopsys/scl/2020.06
+export PATH=$VCS_HOME/bin:$CORETOOLS_HOME/bin:$SYNOPSYS_INSTALL:$SCL_HOME/linux64/bin:$PATH
+
+#Synopsys Verdi (debugger/waveform viewer)
+export       VERDI_HOME=/mnt/tools/EDA/synopsys/verdi/Q-2020.03-SP2-2
+export             PATH=$VERDI_HOME/bin:$PATH
+
+#Synopsys Design Compiler (synthesis)
+export SYNOPSYS_DC_ROOT=/mnt/tools/EDA/synopsys/syn/S-2021.06-SP2
+export SYNOPSYS_LC_ROOT=/mnt/tools/EDA/synopsys/lc/S-2021.06-SP2
+export SYNOPSYS_MW_ROOT=/mnt/tools/EDA/synopsys/mw/S-2021.06-SP2
+export SYNOPSYS_SR_ROOT=/mnt/tools/EDA/synopsys/starrc/Q-2019.12-SP5
+export             PATH=$SYNOPSYS_DC_ROOT/bin:$SYNOPSYS_LC_ROOT/bin:$SYNOPSYS_MW_ROOT/bin/linux64:$SYNOPSYS_SR_ROOT/bin:$PATH
+
+#Synopsys VC Static (CDC/RDC, lint)
+export   VC_STATIC_HOME=/mnt/tools/EDA/synopsys/vc_static/T-2022.06-SP1-1a
+export             PATH=$VC_STATIC_HOME/bin:$PATH
+
+# #Synopsys Spyglass (lint/analysis)
+export 	 SPYGLASS_HOME=$VC_STATIC_HOME
+# export 	 SPYGLASS_HOME=/mnt/work/EDA/synopsys/spyglass/ufe_optional_spyglass-vcs/S-2021.09-SP2/SPYGLASS_HOME/lib/multi-vcst
+# export  SPYGLASS_HOME=/mnt/tools/EDA/synopsys/spyglass/spyglass/S-2021.09-SP2/SPYGLASS_HOME
+# export           PATH=$SPYGLASS_HOME/bin:$PATH
+
+#Synopsys memory compilers
+export  VL_COMPLIB_PATH=/mnt/tools/EDA/synopsys/logicMemLibs/complib #FIXME: bad env var name
+export             PATH=/mnt/tools/EDA/synopsys/embedit/T-2022.03/bin:$PATH
+
+#Cadence Xcelium (simulator)
+export     XCELIUM_HOME=/mnt/tools/EDA/cadence/XCELIUM2009
+export             PATH=$XCELIUM_HOME/tools/bin/64bit:$PATH
+
+#Cadence Genus (synthesis)
+export INCA_64BIT
+export W3264_SKIP_GLIBC_VER_CHECK=1
+export     CDS_AUTO_64BIT=INCLUDE:INCA
+export         GENUS_HOME=/mnt/tools/EDA/cadence/Genus211
+export     CDN_SYNTH_ROOT=$GENUS_HOME/tools
+export               PATH=$GENUS_HOME/bin:$GENUS_HOME/tools/cdnshelp/bin/64bit:$GENUS_HOME/tools/synth/bin/64bit:$PATH
+export    LD_LIBRARY_PATH=$GENUS_HOME/tools/lib/64bit:$GENUS_HOME/tools/lib64:$GENUS_HOME/tools.lnx86/Qt/v5/64bit/lib:$GENUS_HOME:$LD_LIBRARY_PATH
+
+#Cadence Innovus (place and route)
+export   INNOVUS_HOME=/mnt/tools/EDA/cadence/INNOVUS201
+export           PATH=$INNOVUS_HOME/bin:$PATH
+
+#Cadence Jasper (fpv/analysis)
+export    JASPER_HOME=/mnt/tools/EDA/cadence/jasper_2021.03
+export           PATH=$JASPER_HOME/bin:$PATH
+
+#Cadence Conformal (logic equivalence checker)
+export CONFORMAL_HOME=/mnt/tools/EDA/cadence/CONFRML212
+export           PATH=$CONFORMAL_HOME/bin:$PATH
+
+#ARM Socrates
+export ARMPATH=/mnt/tools/EDA/arm/socrates700beta #FIXME: bad env var name
+export PATH=$ARMPATH:/mnt/tools/EDA/arm/socrates:/mnt/tools/EDA/arm/procData:$PATH
+# For ARM Athena launch. XPCOM error 
+export W3264_SKIP_GLIBC_VER_CHECK=1
+export LD_LIBRARY_PATH=/usr/lib64:$LD_LIBRARY_PATH
+
+#Achronix FPGA tools
+export ACH_PATH=/mnt/tools/EDA/achronix #FIXME: do we need this env var?
+export PATH=$ACH_PATH/Achronix-linux:$PATH
+export SYNPLIFY_HOME=/mnt/tools/EDA/achronix/Synplify/fpga/R-2020.09X-SP1
+export PATH=$SYNPLIFY_HOME/bin:$PATH
+
+#Mentor Questa (simulator)
+export   QUESTA_HOME=/mnt/tools/EDA/mentor/questasim
+export          PATH=$QUESTA_HOME/linux_x86_64:$PATH
+
+#Mentor UVMF (UVM TB generator)
+export     UVMF_HOME=$QUESTA_HOME/examples/UVM_Framework/UVMF_2019.1
+
+#Mentor Tessent (BIST Tool)
+export  TESSENT_HOME=/mnt/tools/EDA/mentor/tessent
+export          PATH=$TESSENT_HOME/bin:$PATH
+
+#Mentor Questa Lint (linter)
+export         QLINT=/mnt/tools/EDA/mentor/questalint #FIXME: env var name
+export          PATH=$QLINT/linux_x86_64/bin/bin:$PATH
+
+#Mentor Visualizer (debugger/waveform viewer)
+export      VIS_HOME=/mnt/tools/EDA/mentor/visualizer
+export          PATH=$VIS_HOME/linux_x86_64:$PATH
+
+#Verilator (simulator)
+export    VERILATOR_HOME=/mnt/tools/WWW/verilator/4.106
+export              PATH=$VERILATOR_HOME/bin:$PATH
+
+#Build environment and utilities
+export      DATAGEN_HOME=/mnt/tools/DBS/datagen/20220912
+export        PYDPI_HOME=/mnt/tools/DBS/pydpi/20220111
+export	       BLDR_HOME=/mnt/tools/DBS/bldr/20221110
+#export      BLDR_EXEC_WRAP_FMT='bsub -I -tty "{bldr}"'
+#export         BLDR_HOME=$WA_ROOT/.bldr
+# if [[ ! -d $WA_ROOT/.bldr ]]; then
+# 	git clone --single-branch --branch bldr-39 git@gitlab.dbs.corp:dream-big-semi/db-tools/bldr.git .bldr
+# else
+# 	cd .bldr && git pull; cd $WA_ROOT
+# fi
+export       SKNOBS_HOME=/mnt/tools/DBS/sknobs/v1.0.1
+export      VERIBLE_HOME=/mnt/tools/WWW/verible/v0.0-2021-ge6242248
+export       PYTHON_VENV=/mnt/tools/WWW/python/venv/v1.0
+export REMOTE_CACHE_PATH=/mnt/tools/DBS/bldr_cache/deimos
+export              PATH=/mnt/tools/DBS/sahilbin:$PATH
+
+###############################################
+###############   I P   C F G   ###############
+source cfg/ip_env.sh
+
+###############################################
+########### P Y T H O N    V A R S  ###########
+#NOTE: The following line can be used in lieu of the above line if the server's architecture is incompatible with the pre-installed instance of Python (but be aware that running divergent Python versions may theoretically impact behavior/reproducibility)
+# pip3 -q install --user -r $PYTHON_VENV/requirements.txt
+#Activate python environment
+source $PYTHON_VENV/env/bin/activate
+#NOTE: This was adapted from cocotb Makefile.inc to deal with Xcelium's weird handling of Python
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/mnt/tools/WWW/python/versions/python-3.9.4/lib/
+export   LIBPYTHON_LOC=$(cocotb-config --libpython)
+export      PYTHON_BIN=$(realpath "$(cocotb-config --python-bin)")
+export      PYTHONHOME=$($PYTHON_BIN -c 'from distutils.sysconfig import get_config_var; print(get_config_var("prefix"))')
+#end note
+
+###############################################
+###########     B L D R   C F G     ###########
+#The following specify where collateral goes
+export OUTPUT_PATH=./output
+export RUN_PATH=$OUTPUT_PATH/runs
+export GEN_PATH=$OUTPUT_PATH/gen
+
+###############################################
+###########      A L I A S E S      ###########
+alias               ?='echo $WA_ROOT'
+alias              wa='cd $WA_ROOT && pwd'
+alias           rerun='python3 $BLDR_HOME/scripts/rerun_test.py'
+alias              qr='python3 $BLDR_HOME/scripts/query_runs.py'
+alias  local_cache_on='mkdir -p local_cache && export LOCAL_CACHE_PATH=./local_cache && export POPULATE_CACHE=1 && echo "Local cache enabled: $WA_ROOT/local_cache"'
+alias local_cache_off='unset LOCAL_CACHE_PATH && unset POPULATE_CACHE && echo "Local cache disabled"'
+unset POPULATE_CACHE
+unset LOCAL_CACHE_PATH
+
+echo "Workarea Initialized: $WA_ROOT"
+local_cache_on
