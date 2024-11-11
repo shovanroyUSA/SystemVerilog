@@ -134,7 +134,19 @@ the right two positions and sign-filled.
 module ashift;
   logic signed [3:0] start, result;
   start = 4'b1000;
-  r  esult = (start >>> 2);
+    result = (start >>> 2);
   end
 endmodule
 initial begin
+```
+# Packed Array
+For some data types, you may want both to access the entire value and also to divide
+it into smaller elements. For example, you may have a 32-bit register that sometimes
+you want to treat as four 8-bit values and at other times as a single, unsigned value.
+A SystemVerilog packed array is treated as both an array and a single value. It is
+stored as a contiguous set of bits with no unused space, unlike an unpacked array.
+##
+The packed bit and array dimensions are specifi ed as part of the type, before the
+variable name. These dimensions must be specifi ed in the [msb:lsb] format, not
+[size] .
+<image src = "byte_array.jpg">
