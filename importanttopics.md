@@ -147,6 +147,11 @@ A SystemVerilog packed array is treated as both an array and a single value. It 
 stored as a contiguous set of bits with no unused space, unlike an unpacked array.
 ##
 The packed bit and array dimensions are specifi ed as part of the type, before the
-variable name. These dimensions must be specifi ed in the [msb:lsb] format, not
+variable name. These dimensions must be specified in the [msb:lsb] format, not
 [size] .
+<image src = "packed_array.jpg">
+
+Sample shows barray , an unpacked array of fi ve packed elements, each four bytes
+wide, which are stored in memory as shown in Fig.
+
 <image src = "byte_array.jpg">
