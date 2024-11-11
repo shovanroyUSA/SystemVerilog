@@ -91,3 +91,34 @@ q = {<<byte{p.header, p.len, p.payload with [0 : p.len-1], p.crc}};
 or
 q = {<<byte{p}};
 ```
+# Part Select
+The term part-select refers to a selection of one or more contiguous bits of a single-dimension packed array.
+```c
+logic [63:0] data;
+logic [7:0] byte2;
+byte2 = data[23:16]; // an 8-bit part-select from data
+```
+# Slicing
+A single element of a packed or unpacked array can be selected using an indexed name.
+```c
+bit [3:0] [7:0] j; // j is a packed array
+byte k;
+k = j[2]; // select a single 8-bit element from j
+
+bit signed [31:0] busA [7:0] ; // unpacked array of 8 32-bit vectors
+int busB [1:0]; // unpacked array of 2 integers
+busB = busA[7:6]; // select a 2-vector slice from busA
+```
+# Array Assignment
+Assignment shall be done by assigning each element of the source array to the corresponding element of the
+target array. Correspondence between elements is determined by the left-to-right order of elements in each
+array.
+if array A is declared as int A[7:0] and array B is declared as int B[1:8], the
+assignment A = B; will assign element B[1] to element A[7],
+```c
+int A[10:1]; // fixed-size array of 10 elements
+int B[0:9]; // fixed-size array of 10 elements
+int C[24:1]; // fixed-size array of 24 elements
+A = B; // OK. Compatible type and same size
+A = C; // type check error: different sizes
+```
