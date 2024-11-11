@@ -109,6 +109,8 @@ bit signed [31:0] busA [7:0] ; // unpacked array of 8 32-bit vectors
 int busB [1:0]; // unpacked array of 2 integers
 busB = busA[7:6]; // select a 2-vector slice from busA
 ```
+## The expression da[47 - 8*i -: 8] is used to extract 8-bit chunks from the 48-bit
+
 # Array Assignment
 Assignment shall be done by assigning each element of the source array to the corresponding element of the
 target array. Correspondence between elements is determined by the left-to-right order of elements in each
@@ -122,3 +124,17 @@ int C[24:1]; // fixed-size array of 24 elements
 A = B; // OK. Compatible type and same size
 A = C; // type check error: different sizes
 ```
+# Arithmatic Shift operator <<< or >>>
+The arithmetic right shift shall fill the vacated bit positions with zeros if the result type is unsigned. It shall
+fill the vacated bit positions with the value of the most significant (i.e., sign) bit of the left operand if the
+result type is signed.
+In this example, the variable result is assigned the binary value 1110, which is 1000 shifted to
+the right two positions and sign-filled.
+```c
+module ashift;
+  logic signed [3:0] start, result;
+  start = 4'b1000;
+  r  esult = (start >>> 2);
+  end
+endmodule
+initial begin
