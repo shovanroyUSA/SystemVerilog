@@ -1033,4 +1033,7 @@ vcs                                                      \
        +vcd+vcdpluson 2> error.log | tee simulation.log
 ````
 ## installation
-use src and run folders to separate source code and shell script
+1. use src and run folders to separate source code and shell script
+2. execute bld.sh
+3. execute run.sh
+4. to see waveform using DVE execute run_gui.sh
