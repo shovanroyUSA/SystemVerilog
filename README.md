@@ -2,7 +2,7 @@
 ## Important Topics
 [https://github.com/shovanroyUSA/SystemVerilog/blob/main/importanttopics.md]
 ## Project1: How to create testbench
-How to construct a complete testbench (generator, driver, interface), how to generate ethernet frames with constraint randomization, how to pass a packet from one process to another process using through mailbox, how to drive a packet to a interface are implemented here.
+How to construct a complete testbench (generator, driver, interface), how to generate ethernet frames with constraint randomization, how to pass a packet from one process to another process through mailbox, how to drive a packet to a interface, to a modport are implemented here.
 Click here to see details about the project [https://github.com/shovanroyUSA/SystemVerilog/blob/main/Generate%20Eth%20packets%20and%20drive%20to%20DUT%20according%20to%20interface%20protocol.pdf]
 
 Generate Eth packets and drive to DUT according to interface protocol
