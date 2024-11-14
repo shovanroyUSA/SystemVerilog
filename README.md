@@ -1,8 +1,16 @@
 # SystemVerilog
 ## Important Topics
 [https://github.com/shovanroyUSA/SystemVerilog/blob/main/importanttopics.md]
-## Project1: How to create testbench
-How to construct a complete testbench (generator, driver, interface), how to generate ethernet frames with constraint randomization, how to pass a packet from one process to another process through mailbox, how to drive a packet to a interface, to a modport are implemented here.
+## SystemVerilog Testbench Essentials: Generators, Drivers, Interfaces, and More
+SystemVerilog Verification Framework for Ethernet Protocol Testing
+
+A comprehensive testbench implementation demonstrating:
+- Complete testbench architecture with generator, driver, and interface components
+- Constrained random generation of Ethernet frames
+- Inter-process communication using SystemVerilog mailbox
+- Interface-modport driven packet transmission
+- Reusable verification components for networking protocols
+  
 Click here to see details about the project [https://github.com/shovanroyUSA/SystemVerilog/blob/main/Generate%20Eth%20packets%20and%20drive%20to%20DUT%20according%20to%20interface%20protocol.pdf]
 
 Generate Eth packets and drive to DUT according to interface protocol
