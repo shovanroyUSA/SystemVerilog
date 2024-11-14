@@ -313,7 +313,7 @@ height="9.0in"}
 **5. Interface Implementation**
 
 **Interface Defines the signals (clock, SOP, valid, data, eop) and
-amodport**
+a modport**
 
 Interface is instantiated inside the top module.
 
