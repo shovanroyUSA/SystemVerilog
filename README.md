@@ -3,7 +3,7 @@
 - [Projects](#projects)
 # SystemVerilog
 ## Important Topics
-[https://github.com/shovanroyUSA/SystemVerilog/blob/main/importanttopics.md](URL "Important references of Systemverilog")
+[SytemVerilog]( https://github.com/shovanroyUSA/SystemVerilog/blob/main/importanttopics.md "Important references of Systemverilog")
 ## Projects
 # Project1: SystemVerilog Testbench Essentials: Generators, Drivers, Interfaces, and More
 SystemVerilog Verification Framework for Ethernet Protocol Testing
