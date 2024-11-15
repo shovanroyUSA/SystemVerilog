@@ -1,0 +1,13 @@
+```sh
+function cpwd() {
+  DIR="$*";
+  # if no DIR given, go home
+  if [ $# -lt 1 ]; then
+    DIR=$HOME;
+  fi;
+  builtin cd "${DIR}" && PS1="`pwd`> "
+}
+ 
+alias cd='cpwd'
+```
+
