@@ -10,12 +10,17 @@ module tb;
   generator gen_pkt;
   monitor mon_pkt;
   // instantiate the module dut
+  /* dut AUTO_TEMPLATE (
+                .intf   (intf),
+                );
+        */
   dut dut_i(/*AUTOINST*/
-            .clk (clk),
-            .rst_n (rst_n),
-            .intf (intf));  
-  //verilog-library-directories:(../rtl/)
-  
+            // Interfaces
+            .intf                       (intf),                  // Templated
+            // Inputs
+            .clk                        (clk),
+            .rst_n                      (rst_n));  
+    
   //rst_n generation
   initial begin
     rst_n = 0;
@@ -73,5 +78,7 @@ module tb;
   end
  
 endmodule
-
+// Local Variables:
+// verilog-library-directories:("../rtl")
+// End:
 ```
