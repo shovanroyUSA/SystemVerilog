@@ -13,6 +13,7 @@ class driver;
   task drive_packet(packet eth_pkt, int bytes_per_line = 16);
     logic [7:0][7:0] data;
     logic            valid = 0;
+    logic            ready = 0;
     int              number_of_fleets;
     int              offset = 0;
     int              clk_cnt = 0;
@@ -24,11 +25,12 @@ class driver;
     //eth_pkt.display_fields(bytes_per_line);
     /* Set all signals low at first clock cycle */
     intf.mport_drv.valid <= 1'b0;
+    //intf.mport_drv.ready <= 1'b0;
     intf.mport_drv.sop <= 1'b0;
     intf.mport_drv.eop <= 1'b0;
     @(posedge intf.clk);
-    //$display("D: clk_cycle = %0d sop = %0d valid = %0d data =  %0h eop = %0d", 
-    //             clk_cnt++, intf.mport_drv.sop, intf.mport_drv.valid, intf.mport_drv.data, intf.mport_drv.eop);
+    $display("D: clk_cycle = %0d ready = %0d sop = %0d valid = %0d data =  %0h eop = %0d", 
+                 clk_cnt++, intf.mport_drv.ready, intf.mport_drv.sop, intf.mport_drv.valid, intf.mport_drv.data, intf.mport_drv.eop);
     //////// Drive packet in fleets /////////////////
     for (int i = 0; i < number_of_fleets; i++) begin
       std::randomize(valid) with { valid dist {1 := 90, 0 :=10}; };
@@ -49,16 +51,16 @@ class driver;
       ///// Assign fleet data to the modport data signal /////////////////////
       intf.mport_drv.data <= data;
       // Hold values if valid is low
-      while(valid == 0) begin
+      while(valid == 0 || intf.mport_drv.ready == 0) begin
         @(posedge intf.clk);
-        //$display("D: clk_cycle = %0d sop = %0d valid = %0d fleet[%0d]: %h eop = %0d", 
-        //         clk_cnt++, intf.mport_drv.sop, intf.mport_drv.valid, i, intf.mport_drv.data, intf.mport_drv.eop);
+        $display("D: clk_cycle = %0d ready = %0d sop = %0d valid = %0d fleet[%0d]: %h eop = %0d", 
+                 clk_cnt++, intf.mport_drv.ready, intf.mport_drv.sop, intf.mport_drv.valid, i, intf.mport_drv.data, intf.mport_drv.eop);
         std::randomize(valid) with { valid dist {1 := 90, 0 := 10}; };
         intf.mport_drv.valid <= valid;
       end // end while
       @(posedge intf.clk);
-      //$display("D: clk_cycle = %0d sop = %0d valid = %0d fleet[%0d]: %h eop = %0d", 
-      //          clk_cnt++, intf.mport_drv.sop, intf.mport_drv.valid, i, intf.mport_drv.data, intf.mport_drv.eop);
+      $display("D: clk_cycle = %0d ready = %0d sop = %0d valid = %0d fleet[%0d]: %h eop = %0d", 
+                clk_cnt++, intf.mport_drv.ready, intf.mport_drv.sop, intf.mport_drv.valid, i, intf.mport_drv.data, intf.mport_drv.eop);
     end // for (int i = 0; i < number_of_fleets; i++)
     
     //After all packet transfer set valid = 0, sop = 0, eop = 0
@@ -77,4 +79,5 @@ class driver;
   endtask
   
 endclass
+
 ```
