@@ -21,7 +21,7 @@ class driver;
     eth_pkt.pack(byte_array);
     number_of_fleets = ($size(byte_array) + 7) / 8;
     //$display("\ndriver::display packet() pkt_size = %0d number_of_fleets = %0d", $size(byte_array), number_of_fleets);
-    eth_pkt.display_fields(bytes_per_line);
+    //eth_pkt.display_fields(bytes_per_line);
     /* Set all signals low at first clock cycle */
     intf.mport_drv.valid <= 1'b0;
     intf.mport_drv.sop <= 1'b0;
