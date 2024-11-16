@@ -126,7 +126,7 @@ class packet;
       $write("VLAN_Tag: 0x%h ", VLAN);
     end
     $write("EType: 0x%h ", EType);
-    if (EType == 16'h0800) begin //if IPV4 header
+    if (EType == 16'h0800 || EType == 16'h0080) begin //if IPV4 header // 16'h0080 should be discarded
       if(ipv4 != null) begin
         $display("ipv4 header: ");
         ipv4.display_fields();
@@ -140,7 +140,7 @@ class packet;
         end
       end // if (ipv4 != null)
     end // if (EType == 16'h0800)
-    else if (EType == 16'h86DD) begin //if ipv6 header
+    else if (EType == 16'h86DD || EType == 16'hDD86) begin //if ipv6 header // 16'hDDh8 should be discarded
       if(ipv6 != null) begin
         $write("\nipv6 header:: ");
         ipv6.display_fields();
