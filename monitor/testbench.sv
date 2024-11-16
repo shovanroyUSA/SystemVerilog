@@ -1,6 +1,7 @@
 ```systemverilog
 module tb;
   logic clk = 0;
+  logic rst_n = 0;
   mailbox mbx;
   int number_of_pkts;
   int bytes_per_line;
@@ -8,6 +9,19 @@ module tb;
   driver drv_pkt;
   generator gen_pkt;
   monitor mon_pkt;
+  // instantiate the module dut
+  dut dut_i(/*AUTOINST*/
+            .clk (clk),
+            .rst_n (rst_n),
+            .intf (intf));  
+  //verilog-library-directories:(../rtl/)
+  
+  //rst_n generation
+  initial begin
+    rst_n = 0;
+    for(int i = 0; i < 8; i++) @(posedge clk);
+    rst_n = 1;
+  end
   
   // Clock generation
   initial begin
@@ -59,4 +73,5 @@ module tb;
   end
  
 endmodule
+
 ```
