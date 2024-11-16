@@ -3,7 +3,7 @@ module dut
   (input logic   clk,
    input logic   rst_n,
 
-   mon_intf.dut  intf          
+   drv_intf.mport_dut  intf          
    );
 
   logic       ready;
@@ -25,12 +25,12 @@ module dut
      );
    */
   rng rng_i 
-    #(/*AUTOINSTPARAM*/
+    //#(/*AUTOINSTPARAM*/
       // Parameters
-      .SEED                             (SEED))
+      //.SEED                             (SEED))
   (/*AUTOINST*/
    // Outputs
-   .rnd_8                               (rnd_8[7:0]),
+   .rnd_8                               (rand_8),
    .rnd_16                              (),                      // Templated
    // Inputs
    .clk                                 (clk),
@@ -47,7 +47,7 @@ module dut
   end
   
   // Ready is low around 20% of the time valid is high. Once ready is low it remains low for any number of cycles up to 7
-  always @(posege clk or negedge rst_n) begin
+  always @(posedge clk or negedge rst_n) begin
     if(!rst_n) ready <= 1'b1;
     else begin
       if(!ready && (rdy_low_cnt == 0)) ready <= 1'b1;
@@ -56,5 +56,6 @@ module dut
   end
 
 endmodule // dut
+
 
  ```
